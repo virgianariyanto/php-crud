@@ -1,3 +1,7 @@
+<?php
+    include 'connection.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +12,8 @@
     <title>PHP CRUUD</title>
 </head>
 <body>
-    <section class="w-full h-screen flex items-center justify-center">
-        <div class="w-1/2">
+    <section class="w-full h-screen flex justify-center">
+        <div class="w-1/2 mt-28">
             <div class="w-full text-center mb-8">
                 <h1 class="text-xl font-bold text-slate-600">PHP CRUD</h1>
             </div>
@@ -31,13 +35,21 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr class="hover:bg-slate-100">
-                        <td class="p-2 text-sm">1</td>
-                        <td class="py-2 px-5 text-sm">Riyan</td>
-                        <td class="py-2 px-5 text-sm">11074</td>
-                        <td class="py-2 px-5 text-sm">T. Elektro</td>
-                        <td class="py-2 px-5 text-sm"><a href="manage.php?update=1">Edit</a> | <a href="process.php?delete=1" onclick="return confirm('Apakah anda ingin menghapus?')">Delete</a></td>
-                    </tr>
+                    
+                    <?php
+                        $i = 1;
+                        $sql = mysqli_query($conn, "SELECT * FROM data_mhs");
+                        while($result = mysqli_fetch_assoc($sql)){ 
+                    ?>
+                        <tr class="hover:bg-slate-100">
+                            <td class="p-2 text-sm"><?php echo $i; ?></td>
+                            <td class="py-2 px-5 text-sm"><?php echo $result['nama']; ?></td>
+                            <td class="py-2 px-5 text-sm"><?php echo $result['nim']; ?></td>
+                            <td class="py-2 px-5 text-sm"><?php echo $result['jurusan']; ?></td>
+                            <td class="py-2 px-5 text-sm"><a href="manage.php?update=1">Edit</a> | <a href="process.php?delete=<?php echo $result['id']; ?>" onclick="return confirm('Apakah anda ingin menghapus?')">Delete</a></td>
+                        </tr>
+                        <?php $i++ ?>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>

@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="process.php" method="post" class="w-full h-screen flex justify-center items-center">
+    <form action="process.php" method="POST" class="w-full h-screen flex justify-center items-center">
         <div class="w-1/2 grid gap-y-6" id="form-input">
             <div class="flex justify-center">    
                 <h1 class="text-xl font-bold text-slate-700">Update Data Mahasiswa</h1>
