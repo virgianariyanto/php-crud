@@ -1,15 +1,13 @@
 <?php
 include 'connection.php';
+include 'function.php';
 
 if(isset($_POST['action'])){
-    if($_POST['action'] == 'add_data'){
+    if($_POST['action'] == 'add_data') {
         
-        $nama = $_POST['nama'];
-        $nim = $_POST['nim'];
-        $jurusan = $_POST['jurusan'];
-        $query = mysqli_query($conn, "INSERT INTO data_mhs VALUES('', '$nim', '$nama', '$jurusan')");
+        $queryAdd = addData($_POST, $_FILES);
 
-        if($query) {
+        if($queryAdd) {
             header('location: index.php');
         }
         else{
@@ -17,21 +15,49 @@ if(isset($_POST['action'])){
         }
     }
     else if($_POST['action'] == 'update_data') {
-        echo "Update Data";
+        $queryEdit = editData($_POST, $_FILES);
+
+        if($queryEdit) {
+            header('location: index.php');
+        }
+        else{
+            echo "Data gagal dirubah";
+        }
+    }
+
+    else if($_POST['action'] == 'register') {
+        $queryAddUsers = addUsers($_POST);
+
+        if($queryAddUsers) {
+            header('location: index.php');
+        }
+        else{
+            echo "Data gagal ditambahkan";
+        }
     }
 }
 
 if(isset($_GET['delete'])){
 
-    $id = $_GET['delete'];
-    $query = mysqli_query($conn, "DELETE FROM data_mhs WHERE id = '$id'");
+    $queryDelete = delete($_GET);
 
-    if($query) {
+    if($queryDelete) {
         header('location: index.php');
     }
     else{
         echo "Data gagal dihapus";
     }
 }
+
+// if(isset($_POST['search'])){
+//     $keyword = $_POST['keyword'];
+
+//     $querySearch = mysqli_query($conn, "SELECT * FROM data_pekerja WHERE nama = '$keyword'");
+//     $result = mysqli_fetch_assoc($querySearch);
+
+//     if($result) {
+//         header('location: index.php');
+//     }
+// }
 
 ?>
