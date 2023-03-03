@@ -2,12 +2,6 @@
 session_start();
 include 'connection.php';
 
-// if(isset($_COOKIE['remember'])) {
-//     if($_COOKIE['remember'] == 'true') {
-//         $_SESSION['login'] = true;
-//     } 
-// }
-
 if(isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
     $id = $_COOKIE['id'];
     $key = $_COOKIE['key'];
