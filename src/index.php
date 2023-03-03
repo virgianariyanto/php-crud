@@ -1,11 +1,18 @@
 <?php
-    include 'connection.php';
+session_start();
 
-    $sql = mysqli_query($conn, "SELECT * FROM data_pekerja ORDER BY id desc");
-    if(isset($_POST['search'])){
-        $keyword = $_POST['keyword'];
-        $sql = mysqli_query($conn, "SELECT * FROM data_pekerja WHERE nama LIKE '%$keyword%' OR alamat LIKE '%$keyword%'");
-    }
+if(!isset($_SESSION['login'])) {
+    header('location: login.php');
+    exit;
+}
+
+include 'connection.php';
+
+$sql = mysqli_query($conn, "SELECT * FROM data_pekerja ORDER BY id desc");
+if(isset($_POST['search'])){
+    $keyword = $_POST['keyword'];
+    $sql = mysqli_query($conn, "SELECT * FROM data_pekerja WHERE nama LIKE '%$keyword%' OR alamat LIKE '%$keyword%'");
+}
 
 ?>
 
@@ -17,17 +24,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>PHP CRUUD</title>
+    <style>
+        .background{
+            background-color: rgba(95, 247, 141, 0.1);
+        }
+        .background-delete{
+            background-color: rgba(255, 119, 119, 0.1);
+        }
+    </style>
 </head>
 <body>
+    <div class="w-full flex justify-end">
+        <a href="logout.php">Logout</a>
+    </div>    
     <section class="w-full h-screen flex justify-center">
         <div class="w-1/2 mt-28">
             <div class="w-full text-center mb-8">
                 <h1 class="text-xl font-bold text-slate-600">PHP CRUD</h1>
             </div>
-            <div class="w-full flex gap-x-1">
+            
+            <div class="w-5/6 flex gap-x-1">
                 <form action="" method="post" class="flex gap-x-1">
-                    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="" name="keyword" placeholder="Search.." autofocus />
-                    <button name="search" class="bg-blue-600 hover:bg-blue-700 hover:transition-all py-2 px-5 text-white rounded-md font-semibold inline-flex items-center" type="submit" onclick="location.href='manage.php';" id="add">
+                    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="" name="keyword" placeholder="Search.." autofocus required />
+                    <button name="search" class="bg-blue-600 hover:bg-blue-700 hover:transition-all py-2 px-5 text-white rounded-md font-semibold inline-flex items-center" type="submit" id="add">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="20" height="20" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
@@ -43,6 +62,36 @@
                     </svg>&nbsp;Add
                 </button>
             </div>
+            <?php 
+                if(isset($_SESSION['notifadd'])) {
+            ?>        
+                <div class="w-full h-10 mt-4 background flex items-center justify-center relative border-2 border-green-300 rounded-lg">
+                    <p class="text-green-600">Data berhasil ditambahkan</p>
+                </div>
+            <?php   
+                unset($_SESSION['notifadd']); 
+                }
+            ?>
+            <?php 
+                if(isset($_SESSION['notifedit'])) {
+            ?>        
+                <div class="w-full h-10 mt-4 background flex items-center justify-center relative border-2 border-green-300 rounded-lg">
+                    <p class="text-green-600">Data berhasil dirubah</p>
+                </div>
+            <?php   
+                unset($_SESSION['notifedit']); 
+                }
+            ?>
+            <?php 
+                if(isset($_SESSION['notifdelete'])) {
+            ?>        
+                <div class="w-full h-10 mt-4 background-delete flex items-center justify-center relative border-2 border-red-300 rounded-lg">
+                    <p class="text-red-600">Data berhasil dihapus</p>
+                </div>
+            <?php   
+                unset($_SESSION['notifdelete']); 
+                }
+            ?>
             <table class="w-full p-10 mt-2 mb-10">
                 <thead class="bg-slate-300 text-center">
                     <tr>

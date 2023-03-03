@@ -1,12 +1,19 @@
 <?php
-    include 'connection.php';
+session_start();
 
-    if(isset($_GET['update'])){
-    $id = $_GET['update'];
-    
-    $sql = mysqli_query($conn, "SELECT * FROM data_pekerja WHERE id = '$id'");
-    $result = mysqli_fetch_assoc($sql);
-    }
+if(!isset($_SESSION['login'])) {
+    header('location: login.php');
+    exit;
+}
+
+include 'connection.php';
+
+if(isset($_GET['update'])){
+$id = $_GET['update'];
+
+$sql = mysqli_query($conn, "SELECT * FROM data_pekerja WHERE id = '$id'");
+$result = mysqli_fetch_assoc($sql);
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +53,7 @@
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 hover:transition-all py-2 px-5 text-white rounded-md font-semibold" name="action" value="add_data">
                         Submit
                     </button>
-                <?php }?>
+                <?php } ?>
             </div> 
         </div>
     </form>

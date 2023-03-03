@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include 'connection.php';
 include 'function.php';
 
@@ -8,6 +10,7 @@ if(isset($_POST['action'])){
         $queryAdd = addData($_POST, $_FILES);
 
         if($queryAdd) {
+            $_SESSION['notifadd'] = true;
             header('location: index.php');
         }
         else{
@@ -18,6 +21,7 @@ if(isset($_POST['action'])){
         $queryEdit = editData($_POST, $_FILES);
 
         if($queryEdit) {
+            $_SESSION['notifedit'] = true;
             header('location: index.php');
         }
         else{
@@ -31,9 +35,6 @@ if(isset($_POST['action'])){
         if($queryAddUsers) {
             header('location: index.php');
         }
-        else{
-            echo "Data gagal ditambahkan";
-        }
     }
 }
 
@@ -42,22 +43,12 @@ if(isset($_GET['delete'])){
     $queryDelete = delete($_GET);
 
     if($queryDelete) {
+        $_SESSION['notifdelete'] = true;
         header('location: index.php');
     }
     else{
         echo "Data gagal dihapus";
     }
 }
-
-// if(isset($_POST['search'])){
-//     $keyword = $_POST['keyword'];
-
-//     $querySearch = mysqli_query($conn, "SELECT * FROM data_pekerja WHERE nama = '$keyword'");
-//     $result = mysqli_fetch_assoc($querySearch);
-
-//     if($result) {
-//         header('location: index.php');
-//     }
-// }
 
 ?>

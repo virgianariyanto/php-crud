@@ -20,12 +20,30 @@ function addUsers($data) {
     $nama = htmlspecialchars($data["nama"]);
     $alamat = htmlspecialchars($data["alamat"]);
     $email = strtolower(htmlspecialchars($data["email"]));
-    $password = htmlspecialchars($data["password"]);
-    $confirm_password = htmlspecialchars($data["confirm_password"]);
+    $password = mysqli_real_escape_string($GLOBALS['conn'], $data["password"]) ;
+    $password2 = mysqli_real_escape_string($GLOBALS['conn'], $data["password2"]);
 
-    if($password !== $confirm_password){
-        echo "password harus sama";
+    // cek username
+    $result = mysqli_query($GLOBALS['conn'], "SELECT * FROM users WHERE email = '$email'");
+
+    if(mysqli_fetch_assoc($result)) {
+        echo "<script>
+                alert('Email sudah terdaftar');
+                window.location.href = 'register.php';
+              </script>";
     }
+    
+    // cek password
+    if($password !== $password2){
+        echo "<script>
+                alert('Password harus sama');
+                window.location.href = 'register.php';
+              </script>";
+        
+    return false;    
+    }
+
+    $password = password_hash($password, PASSWORD_DEFAULT);
 
     $query = mysqli_query($GLOBALS['conn'], "INSERT INTO users VALUES('','$nama','$alamat','$email','$password')");
 
