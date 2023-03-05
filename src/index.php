@@ -32,6 +32,8 @@ if(isset($_POST['search'])){
             background-color: rgba(255, 119, 119, 0.1);
         }
     </style>
+    <script src="js/jquery-3.6.3.min.js"></script>
+    <script src="js/script.js"></script>
 </head>
 <body>
     <div class="w-full flex justify-end">
@@ -45,8 +47,8 @@ if(isset($_POST['search'])){
             
             <div class="w-5/6 flex gap-x-1">
                 <form action="" method="post" class="flex gap-x-1">
-                    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="" name="keyword" placeholder="Search.." autofocus required />
-                    <button name="search" class="bg-blue-600 hover:bg-blue-700 hover:transition-all py-2 px-5 text-white rounded-md font-semibold inline-flex items-center" type="submit" id="add">
+                    <input type="text" id="keyword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="" name="keyword" placeholder="Search.." autofocus required />
+                    <button name="search" class="bg-blue-600 hover:bg-blue-700 hover:transition-all py-2 px-5 text-white rounded-md font-semibold inline-flex items-center" type="submit" id="search">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="20" height="20" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
@@ -92,7 +94,7 @@ if(isset($_POST['search'])){
                 unset($_SESSION['notifdelete']); 
                 }
             ?>
-            <table class="w-full p-10 mt-2 mb-10">
+            <table class="w-full p-10 mt-2 mb-10" id="table">
                 <thead class="bg-slate-300 text-center">
                     <tr>
                         <td class="p-2">No</td>
@@ -122,5 +124,7 @@ if(isset($_POST['search'])){
             </table>
         </div>
     </section>
+    <!-- using ajax -->
+    <!-- <script src="js/script.js"></script> -->
 </body>
 </html>
